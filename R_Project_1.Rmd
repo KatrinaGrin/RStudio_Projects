@@ -1,0 +1,263 @@
+---
+title: 'CIND 123 - Data Analytics: Basic Methods'
+author: Ekaterina Grigoreva 
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+<center> <h1> Assignment 1 (10%) </h1> </center>
+<center>  <h3> [Ekaterina Grigoreva] </h2> </center>
+<center> <h3> [CIND123 Section DJ0 – Data Analytics: Basic Methods. Student number: 501085505] </h2> </center>
+---
+## Instructions 
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. Review this website for more details on using R Markdown <http://rmarkdown.rstudio.com>.
+
+Use RStudio for this assignment. Complete the assignment by inserting your R code wherever you see the string "#INSERT YOUR ANSWER HERE".
+
+When you click the **Knit** button, a document (PDF, Word, or HTML format) will be generated that includes both the assignment content as well as the output of any embedded R code chunks.
+
+Submit **both**  the rmd and generated output files. Failing to submit both files will be subject to mark deduction.
+
+## Sample Question and Solution
+
+Use `seq()` to create the vector $(1,2,3,\ldots,10)$.
+
+```{r}
+seq(1,10)
+```
+
+## Question 1
+
+a) Create and print a vector `x` with all integers 1-100, and a vector `y` with every fifth integer in the same range. Hint: use `seq()`function. What is the difference in lengths of the vectors `x` and `y`?.
+
+```{r}
+
+x <- seq(1, 100) 
+y <- seq(1, 100, by = 5) 
+length(x)
+length(y)
+
+difference <- length(x) - length(y)
+print(difference)
+
+```
+
+b) Create a new vector, "x_square", with the square of elements at indices 3, 6, 7, 10, 15, 22, 23, 24, and 30 from the variable "x". Hint: Use indexing rather than a for loop. Calculate the mean and median of the last five values from x_square.
+
+```{r}
+
+x_square <- c(x^3, x^6, x^7, x^10, x^15, x^22, x^23, x^24, x^30)
+print(x_square)
+
+last5num <- tail(x_square, n=5)
+last5num
+
+mean(last5num)
+median(last5num)
+
+```
+
+c) To convert factor to number, would it be correct to use the following commands? Explain your answer.
+
+`factorVar <- factor(c(1, 6, 5.4, 3.2));as.numeric(factorVar)`
+
+```{r}
+
+# When a factor is a number, we cannot use as.numeric() function to convert factor to number because  the output is a vector of the internal level representations of the factor and not the original values. We have to use as.numeric(as.character()) instead. 
+
+factorVar <- factor(c(1, 6, 5.4, 3.2))
+numVar <- as.numeric(as.character(factorVar))
+
+# When we return numVar, the output is: 1.0 6.0 5.4 3.2
+
+# To check the class of numVar: 
+
+class(numVar)
+
+# The output is "numeric"
+
+```
+
+d) A comma-separated values file `dataset.csv` consists of missing values represented by question marks (`?`) and exclamation mark (`!`). How can you read this type of files in R?
+
+```{r}
+
+# Since R gives an error "cannot open file 'dataset.csv': No such file or directory" when returning the following function, I leave it here as a comment:   
+
+#read.csv(file = 'dataset.csv', na.strings = c("?","!"))
+
+```
+
+\newpage
+## Question 2
+
+a) Compute: $$\sum_{n=1}^{100}\frac{2^{n}}{(n-1)!}$$
+
+```{r}
+
+n <- c(1:100)
+formula <- 2^n / factorial(n - 1)
+sum(formula)
+
+# The output is: 14.77811
+
+```
+
+b) Compute: $$\sum_{n=1}^{10}\left(\frac{2^{n}}{n^2} + \frac{n^{4}}{4^{n}}\right)$$
+
+```{r}
+
+n2 <- c(1:10)
+formula2 <- (2^n2 / n2^2) + (n2^4 / 4^n2)
+sum(formula2)
+
+# The output is: 35.80589 
+
+```
+
+c) Compute: $$\sum_{n=0}^{10} \frac{1}{(n+1)!}$$ 
+
+```{r}
+
+n3 <- c(0:10)
+formula3 <- 1 / factorial(n3+1)
+sum(formula3)
+
+# The output is: 1.718282
+
+```
+
+d) Compute: $$\prod_{n=3}^{33} \left(3n + \frac{3}{\sqrt[3]{n}}\right)$$
+
+```{r}
+
+n4 <- c(3:33)
+formula4 <- 3*n4 + (3 / (n4^(1/3)))
+prod(formula4)
+
+# The output is: 9.054339e+51 
+
+```
+
+e) Explain the output of this R-command:
+`c(0:5)[NA]`
+
+```{r}
+
+# c(0:5) creates the following vector: 0 1 2 3 4 5 which consists of 6 elements, and the subset operation [NA] returns 6 elements with the values of NA: NA NA NA NA NA NA 
+
+```
+
+f) What is the difference between is.vector() and is.numeric() functions?
+
+```{r}
+
+#is.numeric tests to check whether a vector is numeric or not. It will return TRUE only if the object is a vector and consists of only numeric data. Whereas, is.vector tests whether the object is a vector or not. It will return TRUE if the object is a vector.
+
+```
+
+g) List at least three advantages and three disadvantages of using `RShiny` package?
+```{r}
+
+# Pros: 1. RShiny is particularly great for fast prototyping and fairly easy to use for non-programmers. 2. RShiny is also great for dashboards, where you have some data (such as in a database or a file) and you want to show a page with all sorts of metrics in an interactive way. The availability of many different charting libraries is also a big plus. 3. RShiny is good when used for classical dashboards about KPIs, accounting, sometimes involving forecasts etc. Also, good for more "data science focused" use cases involving predictions, social media, maps and so on.      
+# Cons: 1. A good knowledge or R is a must. 2. RShiny is not great at is multi-page apps, in the sense that when you click on a link it takes you to a completely new page that makes a new HTTP request and loads new resources and acts as an independent page. 3. RShiny can be challenging to use for gathering and saving data to the database.   
+
+```
+
+\newpage
+## Question 3
+`iris` dataset gives the measurements in centimeters of the variables sepal length, sepal width, petal length and petal width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.
+
+Install the `iris` dataset on your computer using the command `install.packages("datasets")`. Then, load the `datasets` package into your session using the following command.
+```{r}
+library(datasets)
+```
+
+a) Display the first six rows of the `iris` data set.
+
+```{r}
+
+head(iris)
+
+```
+
+b) Compute the average of the first four variables (Sepal.Length, Sepal.Width, Petal.Length and Petal.Width) using `sapply()` function.
+
+Hint: You might need to consider removing the `NA` values, otherwise the average will not be computed.
+
+```{r}
+
+sapply(iris[,-5] ,mean ,rm = NA )
+
+```
+
+c) Show how to use R to replace the missing values in this dataset with plausible ones.
+
+```{r}
+
+iris[is.na(iris)] <- 0
+
+```
+
+d) Compute the standard deviation for only the first and the third variables (Sepal.Length and Petal.Length)
+
+```{r}
+
+sd(iris[,1])
+sd(iris[,3])
+
+```
+
+e) Construct a boxplot for `Sepal.Width` variable, then display the values of all the outliers. Explain how these outliers have been calculated.
+
+```{r}
+
+# Construct a boxplot for `Sepal.Width` variable 
+boxplot(iris$Sepal.Width)
+
+# Identify the outliers 
+boxplot.stats(iris$Sepal.Width)$out
+
+# Display the values of all the outliers: 
+library(ggplot2)
+ggplot(iris, aes(x = "", y=Sepal.Width)) +
+   geom_boxplot(outlier.colour="red", outlier.shape=16, outlier.size=2, notch=FALSE)
+
+```
+
+f) Compute the upper quartile of the `Sepal.Width` variable with two different methods.
+
+```{r}
+
+# Method 1 
+
+quantile(iris$Sepal.Width, 0.75)
+
+# The output is: 75%, 3.3 
+
+# Method 2 is to calculate quartiles: 
+
+sepalWidth <- iris$Sepal.Width
+quantile(sepalWidth)
+
+# The output is:   
+# 0%  25%  50%  75% 100% 
+# 2.0  2.8  3.0  3.3  4.4 
+
+# The upper quartile will be the one 75%: 3.3
+
+```
+
+g) Construct a pie chart to describe the species with 'Sepal.Length' less than 7 centimeters.
+```{r}
+
+sepalLength <- subset(iris, iris$Sepal.Length < 7)
+mytable <- table(sepalLength$Species)
+lbls <- paste(names(mytable), "\n", mytable, sep="")
+pie(mytable, labels = lbls, main="Pie Chart of Species\n and Sepal length < 7")
+
+```
+
+END of Assignment #1.
